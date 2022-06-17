@@ -1,7 +1,6 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { TodoDto } from 'src/dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class TodoService {
@@ -18,14 +17,13 @@ export class TodoService {
 
   public async postTodo(dto: TodoDto) {
     // Add to do
-    console.log({ dto });
     const postTodo = await this.prisma.todo.create({
       data: {
         title: dto.title,
         description: dto.description,
         deadline: dto.deadline,
-        complete: false,
-        todo_id: uuidv4(),
+        complete: dto.complete,
+        todo_id: dto.todo_id,
       },
     });
     return postTodo;
